@@ -28,6 +28,8 @@ export default function ExploreListClient({ homestays }: Props) {
     })
   }, [homestays, selectedPlace, selectedCategories, verifiedOnly])
 
+  const hasFilters = selectedPlace !== null || selectedCategories.length > 0 || verifiedOnly
+
   function clearFilters() {
     setSelectedPlace(null)
     setSelectedCategories([])
