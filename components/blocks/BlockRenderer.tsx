@@ -15,9 +15,11 @@ interface HomestayMeta {
 interface Props {
   block: HomestayBlock
   homestay: HomestayMeta
+  isLoggedIn: boolean
+  slug: string
 }
 
-export default function BlockRenderer({ block, homestay }: Props) {
+export default function BlockRenderer({ block, homestay, isLoggedIn, slug }: Props) {
   switch (block.block_type) {
     case 'hero':
       return (
@@ -26,6 +28,8 @@ export default function BlockRenderer({ block, homestay }: Props) {
           hostName={homestay.host_name}
           phone={homestay.contact_phone}
           callingWindow={homestay.calling_window}
+          isLoggedIn={isLoggedIn}
+          slug={slug}
         />
       )
     case 'host-story':

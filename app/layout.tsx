@@ -4,6 +4,7 @@ import './globals.css'
 import Link from 'next/link'
 import { Home, Search, Menu } from 'lucide-react'
 import NavLinks from '@/components/NavLinks'
+import UserButton from '@/components/UserButton'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* CTA button */}
             <div className="ml-auto flex items-center gap-3 shrink-0">
+              <UserButton />
               <Link
                 href="/list-your-stay"
                 className="hidden sm:flex items-center gap-2 bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold px-4 py-2.5 rounded-full transition-colors shadow-sm whitespace-nowrap"

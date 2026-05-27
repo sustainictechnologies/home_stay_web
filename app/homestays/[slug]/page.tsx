@@ -31,6 +31,9 @@ export async function generateMetadata({ params }: Props) {
 export default async function HomestayPage({ params }: Props) {
   const supabase = createClient()
 
+  const { data: { user } } = await supabase.auth.getUser()
+  const isLoggedIn = !!user
+
   const { data: raw } = await supabase
     .from('homestays')
     .select(`
@@ -96,6 +99,8 @@ export default async function HomestayPage({ params }: Props) {
           <BlockRenderer
             key={block.id}
             block={block}
+            isLoggedIn={isLoggedIn}
+            slug={params.slug}
             homestay={{
               host_name: homestay.host_name,
               contact_phone: homestay.contact_phone,

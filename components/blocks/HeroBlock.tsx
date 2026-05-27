@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Phone, Clock, ShieldCheck, Eye, EyeOff } from 'lucide-react'
+import Link from 'next/link'
+import { Phone, Clock, ShieldCheck, Eye, EyeOff, Lock } from 'lucide-react'
 import type { HeroBlockData } from '@/types/blocks.types'
 
 interface Props {
@@ -10,9 +11,11 @@ interface Props {
   hostName: string
   phone: string
   callingWindow: string
+  isLoggedIn: boolean
+  slug: string
 }
 
-export default function HeroBlock({ data, hostName, phone, callingWindow }: Props) {
+export default function HeroBlock({ data, hostName, phone, callingWindow, isLoggedIn, slug }: Props) {
   const [accepted, setAccepted] = useState(false)
   const [showPhone, setShowPhone] = useState(false)
 
@@ -36,8 +39,26 @@ export default function HeroBlock({ data, hostName, phone, callingWindow }: Prop
           <p className="text-base text-stone-600 italic">"{data.tagline}"</p>
         )}
 
-        {/* Code-of-conduct gate */}
-        {!accepted ? (
+        {/* Auth gate — must be logged in first */}
+        {!isLoggedIn ? (
+          <div className="bg-stone-50 border border-stone-200 rounded-xl p-6 text-center space-y-4">
+            <div className="w-12 h-12 bg-brand-50 rounded-full flex items-center justify-center mx-auto">
+              <Lock size={20} className="text-brand-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-stone-900 mb-1">Login to view contact details</h3>
+              <p className="text-sm text-stone-500 leading-relaxed">
+                Create a free account to connect directly with this host family.
+              </p>
+            </div>
+            <Link
+              href={`/login?next=/homestays/${slug}`}
+              className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-2.5 rounded-full transition-all shadow-md text-sm"
+            >
+              Login / Create Account
+            </Link>
+          </div>
+        ) : !accepted ? (
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-3">
             <div className="flex items-center gap-2">
               <ShieldCheck size={18} className="text-amber-600" />
