@@ -128,7 +128,7 @@ export default async function HomePage() {
               </Link>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 border-2 border-stone-300 text-stone-700 hover:border-brand-600 hover:text-brand-700 font-semibold px-7 py-3.5 rounded-full transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-stone-100 border-2 border-stone-400 text-stone-800 hover:bg-brand-50 hover:border-brand-600 hover:text-brand-700 font-semibold px-7 py-3.5 rounded-full transition-all text-sm"
               >
                 <Users size={15} /> Become a Host
               </Link>
