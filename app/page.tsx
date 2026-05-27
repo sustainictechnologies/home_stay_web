@@ -128,7 +128,7 @@ export default async function HomePage() {
                 <MapPin size={15} /> Explore Homestays
               </Link>
               <Link
-                href="/about"
+                href="/list-your-stay"
                 className="inline-flex items-center gap-2 bg-stone-100 border-2 border-stone-400 text-stone-800 hover:bg-brand-50 hover:border-brand-600 hover:text-brand-700 font-semibold px-7 py-3.5 rounded-full transition-all text-sm"
               >
                 <Users size={15} /> Become a Host
@@ -154,7 +154,7 @@ export default async function HomePage() {
                 <Link
                   key={label}
                   href="/explore"
-                  className={`group w-36 h-36 shrink-0 ${bg} border ${border} rounded-2xl p-4 flex flex-col justify-between hover:scale-[1.03] transition-all duration-300 shadow-md hover:shadow-xl`}
+                  className={`group w-36 h-44 shrink-0 ${bg} border ${border} rounded-2xl p-4 flex flex-col justify-between hover:scale-[1.03] transition-all duration-300 shadow-md hover:shadow-xl`}
                 >
                   <div>
                     <Icon size={22} className={`${iconColor} mb-3`} />

@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* CTA button */}
             <div className="ml-auto flex items-center gap-3 shrink-0">
               <Link
-                href="/about"
+                href="/list-your-stay"
                 className="hidden sm:flex items-center gap-2 bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold px-4 py-2.5 rounded-full transition-colors shadow-sm whitespace-nowrap"
               >
                 <Home size={14} />
@@ -88,8 +88,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <h4 className="text-white text-sm font-semibold mb-3">For Hosts</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/about" className="hover:text-white transition-colors">List Your Stay</Link></li>
-                <li><Link href="/about" className="hover:text-white transition-colors">Host Guidelines</Link></li>
+                <li><Link href="/list-your-stay" className="hover:text-white transition-colors">List Your Stay</Link></li>
+                <li><Link href="/list-your-stay" className="hover:text-white transition-colors">Host Guidelines</Link></li>
               </ul>
             </div>
             <div>
