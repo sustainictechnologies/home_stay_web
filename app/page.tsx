@@ -2,24 +2,33 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import {
-  MapPin, ShieldCheck, Leaf, Bird, Bike, Phone, Star,
+  MapPin, ShieldCheck, Leaf, Mountain, Bike, Phone, Star,
   ArrowRight, Users, Heart, Sprout, Map
 } from 'lucide-react'
 
 const categories = [
   {
-    icon: Bird,
-    label: 'Bird Watching',
-    desc: 'Spot rare birds in their natural habitat',
-    bg: 'bg-teal-50',
-    border: 'border-teal-200',
-    iconColor: 'text-teal-500',
-    textColor: 'text-teal-700',
+    icon: Mountain,
+    label: 'Himalayan Stays',
+    desc: 'Sleep under stars in remote mountain villages',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    iconColor: 'text-blue-500',
+    textColor: 'text-blue-700',
+  },
+  {
+    icon: Leaf,
+    label: 'Forest Retreats',
+    desc: 'Immerse in lush wilderness and wildlife',
+    bg: 'bg-green-50',
+    border: 'border-green-200',
+    iconColor: 'text-green-600',
+    textColor: 'text-green-700',
   },
   {
     icon: Bike,
     label: 'Rider Friendly',
-    desc: 'Perfect stays for solo riders',
+    desc: 'Perfect stays for road trippers',
     bg: 'bg-orange-50',
     border: 'border-orange-200',
     iconColor: 'text-orange-500',
@@ -28,35 +37,26 @@ const categories = [
   {
     icon: ShieldCheck,
     label: 'Solo Female Safe',
-    desc: 'Safe, comfortable and welcoming',
+    desc: 'Safe, welcoming and verified',
     bg: 'bg-rose-50',
     border: 'border-rose-200',
     iconColor: 'text-rose-500',
     textColor: 'text-rose-700',
   },
-  {
-    icon: Leaf,
-    label: 'Agriculture Immersion',
-    desc: 'Live the village life and connect deeper',
-    bg: 'bg-green-50',
-    border: 'border-green-200',
-    iconColor: 'text-green-600',
-    textColor: 'text-green-700',
-  },
 ]
 
 const trustMetrics = [
-  { icon: Leaf,      label: 'No Booking Fees', sub: 'Pay directly to hosts' },
-  { icon: ShieldCheck, label: 'Verified Hosts',  sub: 'Community verified' },
-  { icon: Phone,     label: 'Direct Contact',   sub: 'Call or WhatsApp' },
-  { icon: Users,     label: 'Community Trusted', sub: 'By travelers like you' },
+  { icon: Leaf,        label: 'No Booking Fees',   sub: 'Pay directly to hosts' },
+  { icon: ShieldCheck, label: 'Verified Hosts',     sub: 'Community verified' },
+  { icon: Phone,       label: 'Direct Contact',     sub: 'Call or WhatsApp' },
+  { icon: Users,       label: 'Community Trusted',  sub: 'By travelers like you' },
 ]
 
 const values = [
-  { icon: Sprout, label: 'Local Experiences',    sub: 'Activities, food, and stories that connect you to Konkan.' },
-  { icon: Heart,  label: 'Support Local Families', sub: 'Your travel directly helps local communities grow.' },
-  { icon: Leaf,   label: 'Responsible Travel',   sub: 'Travel respectfully. Preserve nature and culture.' },
-  { icon: Users,  label: 'Real Connections',     sub: 'Real people, real stories, real hospitality.' },
+  { icon: Sprout, label: 'Local Experiences',     sub: 'Activities, food, and stories rooted in the culture of each region.' },
+  { icon: Heart,  label: 'Support Local Families', sub: 'Your travel directly puts money into the hands of rural communities.' },
+  { icon: Leaf,   label: 'Responsible Travel',    sub: 'Travel respectfully. Preserve nature, culture, and way of life.' },
+  { icon: Users,  label: 'Real Connections',      sub: 'Real people, real stories, real hospitality — across India.' },
 ]
 
 export default async function HomePage() {
@@ -105,18 +105,19 @@ export default async function HomePage() {
           {/* Left: text — full height flex column */}
           <div className="flex flex-col justify-center py-24 pr-8">
             <div className="inline-flex items-center gap-2 bg-stone-100 border border-stone-200 text-stone-600 text-xs font-semibold px-3 py-1.5 rounded-full mb-8 w-fit">
-              <MapPin size={11} /> Konkan Coast · Ratnagiri · Sindhudurg · Raigad
+              <MapPin size={11} /> Himalayas · Forests · Villages · Coastlines · Deserts
             </div>
 
             <h1 className="text-[72px] font-black text-stone-900 leading-[1.0] mb-6 tracking-tight">
               Stay With<br />
-              <span className="text-brand-600">Real Konkan</span><br />
-              Families
+              <span className="text-brand-600">Local Families</span><br />
+              Across India
             </h1>
 
             <p className="text-lg text-stone-500 leading-relaxed mb-10 max-w-sm">
-              Authentic homestays, direct host connections, and
-              community-driven travel experiences across coastal Konkan.
+              Authentic community stays, direct host connections, and
+              meaningful travel experiences across rural and culturally
+              rich regions of India.
             </p>
 
             <div className="flex flex-wrap gap-3 mb-14">
@@ -179,7 +180,7 @@ export default async function HomePage() {
               Handpicked Homestays
               <span className="text-2xl">✦</span>
             </h2>
-            <p className="text-stone-500">Personally verified stays across the Konkan coast</p>
+            <p className="text-stone-500">Personally verified stays across rural India</p>
           </div>
           <Link href="/explore" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-800 transition-colors">
             View all stays <ArrowRight size={15} />
@@ -275,7 +276,7 @@ export default async function HomePage() {
             </div>
             <div className="p-4">
               <p className="text-xs font-bold text-stone-800 mb-0.5">Explore on Map</p>
-              <p className="text-xs text-stone-400 mb-3 leading-relaxed">See all stays across the Konkan coast</p>
+              <p className="text-xs text-stone-400 mb-3 leading-relaxed">See all stays across rural India</p>
               <Link
                 href="/map"
                 className="flex items-center justify-center gap-2 w-full bg-stone-50 hover:bg-brand-50 border border-stone-200 hover:border-brand-200 text-stone-700 hover:text-brand-700 text-xs font-semibold py-2.5 rounded-xl transition-all"
@@ -311,8 +312,8 @@ export default async function HomePage() {
             <Image src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=60" alt="" fill className="object-cover" />
           </div>
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to experience real Konkan?</h2>
-            <p className="text-white/70 mb-8 max-w-md mx-auto text-lg">Browse verified homestays, call the host directly, pay zero fees.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to experience real India?</h2>
+            <p className="text-white/70 mb-8 max-w-md mx-auto text-lg">Browse verified homestays across mountains, forests, villages, and coastlines. Call the host directly. Pay zero fees.</p>
             <Link
               href="/map"
               className="inline-flex items-center gap-2 bg-white text-brand-700 font-bold px-8 py-3.5 rounded-full hover:bg-cream-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"

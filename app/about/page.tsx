@@ -3,7 +3,7 @@ import { Leaf, ShieldCheck, Phone, MapPin, Heart, Users } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'About Us · JALAD Homestays',
-  description: 'Learn about JALAD Homestays — a community platform connecting travelers directly with verified local families across the Konkan coast.',
+  description: 'Learn about JALAD Homestays — India\'s slow-travel community network connecting conscious travelers directly with local families across mountains, forests, villages, and coastlines.',
 }
 
 const values = [
@@ -34,8 +34,8 @@ const values = [
   },
   {
     icon: MapPin,
-    title: 'Rooted in Konkan',
-    body: 'We focus exclusively on Ratnagiri, Sindhudurg, and Raigad — the three districts of the Konkan coast we know and love.',
+    title: 'Rooted Across India',
+    body: 'From the Himalayas to coastal villages, from desert hamlets to forest retreats — we are building a network of real homes across every landscape of India.',
   },
 ]
 
@@ -46,16 +46,17 @@ export default function AboutPage() {
       <section className="bg-white border-b border-stone-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20 sm:py-28 text-center">
           <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
-            <MapPin size={12} /> Konkan Coast · Ratnagiri · Sindhudurg · Raigad
+            <MapPin size={12} /> Himalayas · Forests · Villages · Coastlines · Deserts
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-stone-900 leading-tight mb-6">
             We believe travel should<br />
             <span className="text-brand-600">benefit the people it touches.</span>
           </h1>
           <p className="text-lg text-stone-500 leading-relaxed max-w-2xl mx-auto">
-            JALAD Homestays is a community-first directory of verified rural stays along India's Konkan coast.
-            We exist to give conscious travelers a direct line to local families — and to keep tourism money
-            inside the villages that make Konkan worth visiting.
+            JALAD is India's slow-travel community network — a directory of verified rural stays connecting
+            conscious travelers directly with local families across mountains, forests, coastlines, deserts,
+            and culturally rich villages. We exist to keep tourism money inside the communities that make
+            India worth exploring.
           </p>
         </div>
       </section>

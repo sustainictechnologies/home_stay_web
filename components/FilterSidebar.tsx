@@ -13,39 +13,39 @@ export interface NominatimPlace {
 }
 
 const NATURE_OPTIONS = [
-  { value: 'bird-watching',     label: 'Bird Watching' },
-  { value: 'waterfalls-nearby', label: 'Waterfalls Nearby' },
-  { value: 'forest-stay',       label: 'Forest Stay' },
-  { value: 'river-side',        label: 'River Side' },
+  { value: 'himalayan-stay',    label: 'Himalayan Stay' },
+  { value: 'forest-retreat',    label: 'Forest Retreat' },
+  { value: 'tea-estate',        label: 'Tea Estate Living' },
+  { value: 'desert-village',    label: 'Desert Village' },
   { value: 'beach-side',        label: 'Beach Side' },
+  { value: 'river-side',        label: 'River Side' },
   { value: 'mountain-view',     label: 'Mountain View' },
-  { value: 'sunrise-point',     label: 'Sunrise Point' },
-  { value: 'sunset-point',      label: 'Sunset Point' },
-  { value: 'farm-stay',         label: 'Farm Stay' },
-  { value: 'mango-orchard',     label: 'Mango Orchard' },
-  { value: 'cashew-farm',       label: 'Cashew Farm' },
-  { value: 'fishing-village',   label: 'Fishing Village Experience' },
+  { value: 'waterfalls-nearby', label: 'Waterfalls Nearby' },
+  { value: 'farm-stay',         label: 'Farm Life' },
+  { value: 'bird-watching',     label: 'Bird Watching' },
+  { value: 'monsoon-escape',    label: 'Monsoon Escape' },
+  { value: 'eco-living',        label: 'Eco Living' },
 ]
 
 const CULTURE_OPTIONS = [
-  { value: 'konkani-food',       label: 'Konkani Food' },
-  { value: 'malvani-food',       label: 'Malvani Food' },
-  { value: 'local-festivals',    label: 'Local Festivals' },
-  { value: 'folk-culture',       label: 'Folk Culture' },
-  { value: 'traditional-house',  label: 'Traditional House' },
+  { value: 'tribal-culture',     label: 'Tribal Culture' },
+  { value: 'local-food-trail',   label: 'Local Food Trail' },
   { value: 'village-lifestyle',  label: 'Village Lifestyle' },
   { value: 'farming-activities', label: 'Farming Activities' },
+  { value: 'folk-culture',       label: 'Folk Culture' },
+  { value: 'traditional-house',  label: 'Traditional Home' },
+  { value: 'local-festivals',    label: 'Local Festivals' },
   { value: 'temple-trails',      label: 'Temple Trails' },
 ]
 
 const STYLE_OPTIONS = [
   { value: 'solo-friendly',        label: 'Solo Friendly' },
-  { value: 'solo-female-friendly', label: 'Solo Female Friendly' },
+  { value: 'solo-female-friendly', label: 'Solo Female Safe' },
   { value: 'family-friendly',      label: 'Family Friendly' },
   { value: 'rider-friendly',       label: 'Rider Friendly' },
   { value: 'backpacker-friendly',  label: 'Backpacker Friendly' },
-  { value: 'group-stay',           label: 'Group Stay' },
   { value: 'couple-friendly',      label: 'Couple Friendly' },
+  { value: 'group-stay',           label: 'Group Stay' },
 ]
 
 interface Props {

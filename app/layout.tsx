@@ -8,9 +8,9 @@ import NavLinks from '@/components/NavLinks'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'JALAD Homestays | Authentic Konkan Experiences',
+  title: 'JALAD Homestays | Community Travel Across India',
   description:
-    'Discover verified homestays from conscious local families across Ratnagiri, Sindhudurg, and Raigad. Direct host contact. No booking fees.',
+    'Discover verified homestays from conscious local families across India — mountains, forests, villages, coastlines, and deserts. Direct host contact. Zero fees.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -75,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <div className="text-[9px] text-brand-400 font-medium tracking-widest uppercase">Community Homestays</div>
                 </div>
               </div>
-              <p className="text-sm leading-relaxed">Community-driven homestays across the Konkan coast. No middlemen, no fees.</p>
+              <p className="text-sm leading-relaxed">India's slow-travel community network. Real homes, real families, zero fees.</p>
             </div>
             <div>
               <h4 className="text-white text-sm font-semibold mb-3">Discover</h4>
