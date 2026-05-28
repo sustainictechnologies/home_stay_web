@@ -72,12 +72,14 @@ export default function ExploreClient({ homestays }: Props) {
       <div className="hidden lg:flex flex-1 overflow-hidden">
 
         {/* Map — 40% width */}
-        <div className="w-[40%] relative shrink-0">
-          <MapView
-            homestays={filtered}
-            selectedPlace={selectedPlace}
-            onBoundsChange={handleBoundsChange}
-          />
+        <div className="w-[40%] shrink-0 bg-stone-100 p-5">
+          <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-sm ring-1 ring-stone-200">
+            <MapView
+              homestays={filtered}
+              selectedPlace={selectedPlace}
+              onBoundsChange={handleBoundsChange}
+            />
+          </div>
         </div>
 
         {/* List — 60% width */}
@@ -112,12 +114,14 @@ export default function ExploreClient({ homestays }: Props) {
 
       {/* Mobile: map on top, list below */}
       <div className="lg:hidden flex flex-col flex-1 overflow-hidden">
-        <div className="h-[45%] relative">
-          <MapView
-            homestays={filtered}
-            selectedPlace={selectedPlace}
-            onBoundsChange={handleBoundsChange}
-          />
+        <div className="h-[45%] bg-stone-100 p-4">
+          <div className="relative w-full h-full rounded-xl overflow-hidden shadow-sm ring-1 ring-stone-200">
+            <MapView
+              homestays={filtered}
+              selectedPlace={selectedPlace}
+              onBoundsChange={handleBoundsChange}
+            />
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto border-t border-stone-200 bg-white">

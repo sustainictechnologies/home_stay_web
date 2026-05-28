@@ -1,0 +1,61 @@
+export type BlockType =
+  | 'hero'
+  | 'host-story'
+  | 'birding-log'
+  | 'rules-block'
+  | 'video'
+  | 'gallery'
+
+  | 'rooms'
+  | 'reviews'
+  | 'food'
+  | 'whatsapp'
+  | 'map'
+
+export interface BlockProps {
+  bgColor?: string
+  textColor?: string
+  accentColor?: string
+  paddingY?: number
+  headingSize?: number
+  imageUrl?: string
+  borderRadius?: number
+  showShadow?: boolean
+  fontFamily?: string
+  /** Keyed image overrides: imageKey → url */
+  images?: Record<string, string>
+  /** Keyed text overrides: textKey → value */
+  texts?: Record<string, string>
+}
+
+export interface CanvasBlock {
+  id: string
+  type: BlockType
+  props: BlockProps
+}
+
+export const DEFAULT_PROPS: BlockProps = {
+  bgColor: '#ffffff',
+  textColor: '#1c1c1c',
+  accentColor: '#1e6b1e',
+  paddingY: 60,
+  headingSize: 32,
+  borderRadius: 0,
+  showShadow: false,
+  fontFamily: 'Inter',
+}
+
+export const PALETTE = [
+  { type: 'hero'        as BlockType, label: 'Hero Block',      emoji: '🌄', desc: 'Cover photo + contact card', group: 'Core' },
+  { type: 'host-story'  as BlockType, label: 'Host Story',       emoji: '🙏', desc: 'Host photo & personal story', group: 'Core' },
+  { type: 'birding-log' as BlockType, label: 'Activity Log',     emoji: '🧭', desc: 'Activities & experiences', group: 'Core' },
+  { type: 'rules-block' as BlockType, label: 'House Rules',      emoji: '📋', desc: 'Policies & prohibited items', group: 'Core' },
+  { type: 'video'       as BlockType, label: 'Video',            emoji: '🎥', desc: 'YouTube embed + caption', group: 'Core' },
+  { type: 'gallery'     as BlockType, label: 'Gallery',          emoji: '🖼️', desc: 'Photo grid showcase', group: 'Extra' },
+
+  { type: 'rooms'       as BlockType, label: 'Rooms',            emoji: '🛏️', desc: 'Room types & pricing', group: 'Extra' },
+  { type: 'reviews'     as BlockType, label: 'Reviews',          emoji: '⭐', desc: 'Guest testimonials', group: 'Extra' },
+  { type: 'food'        as BlockType, label: 'Food Section',     emoji: '🍛', desc: 'Home cooking & meals', group: 'Extra' },
+  { type: 'whatsapp'    as BlockType, label: 'WhatsApp CTA',     emoji: '💬', desc: 'Direct message button', group: 'Extra' },
+  { type: 'map'         as BlockType, label: 'Map & Location',   emoji: '📍', desc: 'Interactive location', group: 'Extra' },
+]

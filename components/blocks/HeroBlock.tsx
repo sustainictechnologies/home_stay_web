@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Phone, Clock, ShieldCheck, Eye, EyeOff, Lock } from 'lucide-react'
+import { ShieldCheck, Lock } from 'lucide-react'
 import type { HeroBlockData } from '@/types/blocks.types'
+import WhatsAppContactButton from '@/components/WhatsAppContactButton'
 
 interface Props {
   data: HeroBlockData
@@ -17,7 +18,6 @@ interface Props {
 
 export default function HeroBlock({ data, hostName, phone, callingWindow, isLoggedIn, slug }: Props) {
   const [accepted, setAccepted] = useState(false)
-  const [showPhone, setShowPhone] = useState(false)
 
   return (
     <div className="rounded-2xl overflow-hidden border border-stone-200 bg-white">
@@ -84,34 +84,11 @@ export default function HeroBlock({ data, hostName, phone, callingWindow, isLogg
             </label>
           </div>
         ) : (
-          <div className="bg-brand-50 border border-brand-200 rounded-xl p-5 space-y-3">
-            <div className="flex items-center gap-2 mb-1">
-              <Phone size={16} className="text-brand-600" />
-              <span className="font-semibold text-brand-900 text-sm">Contact {hostName}</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              {showPhone ? (
-                <span className="text-lg font-bold text-stone-900 tracking-wide">{phone}</span>
-              ) : (
-                <span className="text-lg font-bold text-stone-400 tracking-widest select-none">
-                  {'•'.repeat(phone.length)}
-                </span>
-              )}
-              <button
-                onClick={() => setShowPhone(!showPhone)}
-                className="text-brand-600 hover:text-brand-800 p-1 rounded transition-colors"
-                aria-label={showPhone ? 'Hide phone number' : 'Reveal phone number'}
-              >
-                {showPhone ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
-
-            <div className="flex items-center gap-1.5 text-xs text-brand-700">
-              <Clock size={12} />
-              <span>Best time to call: {callingWindow}</span>
-            </div>
-          </div>
+          <WhatsAppContactButton
+            hostName={hostName}
+            phone={phone}
+            callingWindow={callingWindow}
+          />
         )}
       </div>
     </div>
