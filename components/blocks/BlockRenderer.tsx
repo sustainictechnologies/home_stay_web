@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { HomestayBlock } from '@/types/blocks.types'
 import HeroBlock from './HeroBlock'
 import ContactBlock from './ContactBlock'
