@@ -9,11 +9,14 @@ import FilterBar, { type NominatimPlace } from './FilterSidebar'
 
 interface Props {
   homestays: HomestayWithCategories[]
+  initialCategory?: string | null
 }
 
-export default function ExploreListClient({ homestays }: Props) {
+export default function ExploreListClient({ homestays, initialCategory }: Props) {
   const [selectedPlace, setSelectedPlace] = useState<NominatimPlace | null>(null)
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    initialCategory ? [initialCategory] : []
+  )
   const [verifiedOnly, setVerifiedOnly] = useState(false)
 
   const filtered = useMemo(() => {

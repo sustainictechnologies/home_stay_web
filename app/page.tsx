@@ -37,24 +37,28 @@ const categories = [
     label: 'Bird Watching',
     desc: 'For those who find peace in every flutter.',
     bg: '/bird_waching.jpg',
+    slug: 'bird-watching',
   },
   {
     icon: Bike,
     label: 'Rider Friendly',
     desc: 'Built for explorers who ride free.',
     bg: '/Rider_Friendly.jpeg',
+    slug: 'rider-friendly',
   },
   {
     icon: ShieldCheck,
     label: 'Solo Female Safe',
     desc: 'Safe, respectful and welcoming stays.',
     bg: '/Solo_Female_Safe.jpeg',
+    slug: 'solo-female-friendly',
   },
   {
     icon: Leaf,
     label: 'Agri Immersion',
     desc: 'Live the village life. Get your hands dirty.',
     bg: '/Agri_Immersion.jpeg',
+    slug: 'farming-activities',
   },
 ]
 
@@ -188,10 +192,10 @@ export default async function HomePage() {
 
       {/* ── Category Cards ────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-10 grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {categories.map(({ icon: Icon, label, desc, bg }) => (
+        {categories.map(({ icon: Icon, label, desc, bg, slug }) => (
           <Link
             key={label}
-            href="/explore"
+            href={`/explore?category=${slug}`}
             className="group relative rounded-2xl overflow-hidden aspect-[4/3]"
           >
             <Image
