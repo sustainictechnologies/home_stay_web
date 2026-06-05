@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
 
         <footer className="bg-stone-900 text-stone-400">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
@@ -97,8 +97,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <h4 className="text-white text-sm font-semibold mb-3">Contact</h4>
               <p className="text-sm">sustainic.technologies@gmail.com</p>
-              <p className="text-xs mt-6 text-stone-600">Â© 2026 Be Native Â· Sustainic Technologies</p>
             </div>
+          </div>
+
+          {/* Donate strip */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-white font-medium">Support the Be Native mission</p>
+              <p className="text-xs text-stone-500 mt-0.5">Help us keep this platform free for hosts and travellers.</p>
+            </div>
+            <Link
+              href="/donate"
+              className="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shrink-0"
+            >
+              Donate
+            </Link>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-6">
+            <p className="text-xs text-stone-600">© 2026 Be Native · Sustainic Technologies</p>
           </div>
         </footer>
 

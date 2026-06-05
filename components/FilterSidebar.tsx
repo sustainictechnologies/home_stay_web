@@ -31,7 +31,7 @@ const CULTURE_OPTIONS = [
   { value: 'tribal-culture',     label: 'Tribal Culture' },
   { value: 'local-food-trail',   label: 'Local Food Trail' },
   { value: 'village-lifestyle',  label: 'Village Lifestyle' },
-  { value: 'farming-activities', label: 'Farming Activities' },
+  { value: 'agri-immersion',     label: 'Agri Immersion' },
   { value: 'folk-culture',       label: 'Folk Culture' },
   { value: 'traditional-house',  label: 'Traditional Home' },
   { value: 'local-festivals',    label: 'Local Festivals' },

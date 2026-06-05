@@ -4,10 +4,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
-  Eye, Pencil, Trash2, ShieldCheck, MapPin, Search,
-  ExternalLink, Layers, AlertTriangle, X, Check, Tag, ChevronDown,
+  Pencil, Trash2, ShieldCheck, MapPin, Search,
+  ExternalLink, Layers, AlertTriangle, X, Check, Tag,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { saveCategories } from '../actions'
 
 interface Homestay {
   id:                string
@@ -31,8 +32,7 @@ interface Category {
 }
 
 interface Props {
-  homestays:     Homestay[]
-  allCategories: Category[]
+  homestays: Homestay[]
 }
 
 /* ── Category groups matching FilterSidebar ──────────────────── */
@@ -42,8 +42,8 @@ const NATURE_SLUGS = [
   'cashew-farm','fishing-village',
 ]
 const CULTURE_SLUGS = [
-  'konkani-food','malvani-food','local-festivals','folk-culture',
-  'traditional-house','village-lifestyle','farming-activities','temple-trails',
+  'konkani-food','local-festivals','folk-culture',
+  'traditional-house','village-lifestyle','agri-immersion','temple-trails',
 ]
 const STYLE_SLUGS = [
   'solo-friendly','solo-female-friendly','family-friendly','rider-friendly',
@@ -58,21 +58,56 @@ function groupLabel(slug: string) {
 }
 
 /* ── Category panel ──────────────────────────────────────────── */
+/* ── Static category data (matches categories_extended.sql) ─── */
+const CATEGORY_DATA: { slug: string; name: string }[] = [
+  // Nature & Adventure
+  { slug: 'bird-watching',     name: 'Bird Watching'             },
+  { slug: 'waterfalls-nearby', name: 'Waterfalls Nearby'         },
+  { slug: 'forest-stay',       name: 'Forest Stay'               },
+  { slug: 'river-side',        name: 'River Side'                },
+  { slug: 'beach-side',        name: 'Beach Side'                },
+  { slug: 'mountain-view',     name: 'Mountain View'             },
+  { slug: 'sunrise-point',     name: 'Sunrise Point'             },
+  { slug: 'sunset-point',      name: 'Sunset Point'              },
+  { slug: 'farm-stay',         name: 'Farm Stay'                 },
+  { slug: 'mango-orchard',     name: 'Mango Orchard'             },
+  { slug: 'cashew-farm',       name: 'Cashew Farm'               },
+  { slug: 'fishing-village',   name: 'Fishing Village Experience'},
+  // Cultural Experience
+  { slug: 'konkani-food',       name: 'Konkani Food'      },
+  { slug: 'local-festivals',    name: 'Local Festivals'   },
+  { slug: 'folk-culture',       name: 'Folk Culture'      },
+  { slug: 'traditional-house',  name: 'Traditional House' },
+  { slug: 'village-lifestyle',  name: 'Village Lifestyle' },
+  { slug: 'agri-immersion',     name: 'Agri Immersion'    },
+  { slug: 'temple-trails',      name: 'Temple Trails'     },
+  // Travel Style
+  { slug: 'solo-friendly',         name: 'Solo Friendly'        },
+  { slug: 'solo-female-friendly',  name: 'Solo Female Safe'     },
+  { slug: 'family-friendly',       name: 'Family Friendly'      },
+  { slug: 'rider-friendly',        name: 'Rider Friendly'       },
+  { slug: 'backpacker-friendly',   name: 'Backpacker Friendly'  },
+  { slug: 'group-stay',            name: 'Group Stay'           },
+  { slug: 'couple-friendly',       name: 'Couple Friendly'      },
+]
+
+const slugToName = Object.fromEntries(CATEGORY_DATA.map(c => [c.slug, c.name]))
+
 function CategoryPanel({
   homestayId,
-  allCategories,
   initialSlugs,
   onClose,
+  onSaved,
 }: {
-  homestayId:    string
-  allCategories: Category[]
-  initialSlugs:  string[]
-  onClose:       () => void
+  homestayId:   string
+  initialSlugs: string[]
+  onClose:      () => void
+  onSaved:      () => void
 }) {
   const [selected, setSelected] = useState<string[]>(initialSlugs)
   const [saving,   setSaving]   = useState(false)
   const [saved,    setSaved]    = useState(false)
-  const router = useRouter()
+  const [error,    setError]    = useState<string | null>(null)
 
   const groups = [
     { label: 'Nature & Adventure',  slugs: NATURE_SLUGS  },
@@ -89,34 +124,19 @@ function CategoryPanel({
 
   async function handleSave() {
     setSaving(true)
-    const supabase = createClient()
-
-    // Get category ids for selected slugs
-    const catIds = allCategories
-      .filter(c => selected.includes(c.slug))
-      .map(c => c.id)
-
-    // Delete all existing assignments for this homestay
-    await supabase
-      .from('homestay_categories')
-      .delete()
-      .eq('homestay_id', homestayId)
-
-    // Insert new assignments
-    if (catIds.length > 0) {
-      await supabase
-        .from('homestay_categories')
-        .insert(catIds.map(category_id => ({ homestay_id: homestayId, category_id })))
-    }
-
+    setError(null)
+    const result = await saveCategories(homestayId, selected)
     setSaving(false)
-    setSaved(true)
-    router.refresh()
-    setTimeout(() => setSaved(false), 2000)
+    if (result.error) {
+      setError(result.error)
+    } else {
+      setSaved(true)
+      setTimeout(() => onSaved(), 900)
+    }
   }
 
   const visibleCats = (slugs: string[]) =>
-    allCategories.filter(c => slugs.includes(c.slug))
+    CATEGORY_DATA.filter(c => slugs.includes(c.slug))
 
   return (
     <div className="col-span-full px-5 py-4 bg-stone-50 border-t border-stone-100">
@@ -126,7 +146,6 @@ function CategoryPanel({
           <X size={14} />
         </button>
       </div>
-
       <div className="grid sm:grid-cols-3 gap-4 mb-4">
         {groups.map(group => (
           <div key={group.label}>
@@ -155,7 +174,7 @@ function CategoryPanel({
         ))}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-wrap">
         <button
           onClick={handleSave}
           disabled={saving}
@@ -169,13 +188,14 @@ function CategoryPanel({
           {saved ? 'Saved!' : saving ? 'Saving…' : 'Save Categories'}
         </button>
         <span className="text-xs text-stone-400">{selected.length} selected</span>
+        {error && <span className="text-xs text-red-500">{error}</span>}
       </div>
     </div>
   )
 }
 
 /* ── Main component ──────────────────────────────────────────── */
-export default function HomestaysClient({ homestays, allCategories }: Props) {
+export default function HomestaysClient({ homestays }: Props) {
   const router = useRouter()
   const [search,     setSearch]     = useState('')
   const [deleting,   setDeleting]   = useState<string | null>(null)
@@ -274,20 +294,19 @@ export default function HomestaysClient({ homestays, allCategories }: Props) {
                       <p className="text-sm font-semibold text-stone-900 truncate">{h.title}</p>
                       <p className="text-xs text-stone-400 truncate">by {h.host_name}</p>
                       {/* Category tags */}
-                      {h.category_slugs.length > 0 && (
+                      {h.category_slugs.length > 0 ? (
                         <div className="flex flex-wrap gap-1 mt-1">
-                          {h.category_slugs.slice(0, 2).map(slug => {
-                            const cat = allCategories.find(c => c.slug === slug)
-                            return cat ? (
-                              <span key={slug} className="text-[9px] bg-brand-50 text-brand-600 px-1.5 py-0.5 rounded-full font-medium">
-                                {cat.name}
-                              </span>
-                            ) : null
-                          })}
-                          {h.category_slugs.length > 2 && (
-                            <span className="text-[9px] text-stone-400">+{h.category_slugs.length - 2}</span>
+                          {h.category_slugs.slice(0, 3).map(slug => (
+                            <span key={slug} className="text-[9px] bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded-full font-medium border border-brand-100">
+                              {slugToName[slug] ?? slug.replace(/-/g, ' ')}
+                            </span>
+                          ))}
+                          {h.category_slugs.length > 3 && (
+                            <span className="text-[9px] text-stone-400">+{h.category_slugs.length - 3} more</span>
                           )}
                         </div>
+                      ) : (
+                        <p className="text-[9px] text-stone-300 mt-0.5">No categories</p>
                       )}
                     </div>
                   </div>
@@ -344,10 +363,12 @@ export default function HomestaysClient({ homestays, allCategories }: Props) {
                         {/* Categories */}
                         <button
                           onClick={() => setExpandedId(expandedId === h.id ? null : h.id)}
-                          title="Manage Categories"
+                          title={h.category_slugs.length > 0 ? `Edit ${h.category_slugs.length} categories` : 'Assign Categories'}
                           className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
                             expandedId === h.id
                               ? 'bg-brand-100 text-brand-600'
+                              : h.category_slugs.length > 0
+                              ? 'bg-brand-50 text-brand-500 hover:bg-brand-100 hover:text-brand-700'
                               : 'text-stone-400 hover:text-brand-600 hover:bg-brand-50'
                           }`}
                         >
@@ -390,9 +411,9 @@ export default function HomestaysClient({ homestays, allCategories }: Props) {
                 {expandedId === h.id && (
                   <CategoryPanel
                     homestayId={h.id}
-                    allCategories={allCategories}
                     initialSlugs={h.category_slugs}
                     onClose={() => setExpandedId(null)}
+                    onSaved={() => { setExpandedId(null); router.refresh() }}
                   />
                 )}
               </div>

@@ -58,7 +58,7 @@ const categories = [
     label: 'Agri Immersion',
     desc: 'Live the village life. Get your hands dirty.',
     bg: '/Agri_Immersion.jpeg',
-    slug: 'farming-activities',
+    slug: 'agri-immersion',
   },
 ]
 

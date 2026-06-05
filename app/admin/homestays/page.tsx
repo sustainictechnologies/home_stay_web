@@ -7,7 +7,7 @@ export const revalidate = 0
 export default async function HomestaysPage() {
   const supabase = createClient()
 
-  const [{ data: raw }, { data: allCats }, { data: assignments }] = await Promise.all([
+  const [{ data: raw }, { data: assignments }] = await Promise.all([
     supabase
       .from('homestays')
       .select(`
@@ -18,11 +18,6 @@ export default async function HomestaysPage() {
       .order('created_at', { ascending: false }),
 
     supabase
-      .from('categories')
-      .select('id, name, slug')
-      .order('name'),
-
-    supabase
       .from('homestay_categories')
       .select('homestay_id, categories ( id, slug )'),
   ])
@@ -30,7 +25,7 @@ export default async function HomestaysPage() {
   // Build a map: homestay_id → category slugs[]
   const assignmentMap: Record<string, string[]> = {}
   for (const row of (assignments ?? []) as any[]) {
-    const hid = row.homestay_id
+    const hid  = row.homestay_id
     const slug = row.categories?.slug
     if (hid && slug) {
       if (!assignmentMap[hid]) assignmentMap[hid] = []
@@ -61,10 +56,7 @@ export default async function HomestaysPage() {
         title="Homestays"
         subtitle={`${homestays.length} homestay${homestays.length !== 1 ? 's' : ''} in the network`}
       />
-      <HomestaysClient
-        homestays={homestays}
-        allCategories={(allCats ?? []) as { id: number; name: string; slug: string }[]}
-      />
+      <HomestaysClient homestays={homestays} />
     </div>
   )
 }

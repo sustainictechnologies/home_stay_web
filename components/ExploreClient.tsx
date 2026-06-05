@@ -3,7 +3,6 @@
 import { useState, useMemo, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import type { HomestayWithCategories } from '@/types/blocks.types'
-import FilterBar, { type NominatimPlace } from './FilterSidebar'
 import HomestayCard from './HomestayCard'
 import type { MapBounds } from './MapView'
 import { MapPin } from 'lucide-react'
@@ -22,9 +21,6 @@ interface Props {
 }
 
 export default function ExploreClient({ homestays }: Props) {
-  const [selectedPlace, setSelectedPlace] = useState<NominatimPlace | null>(null)
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [verifiedOnly, setVerifiedOnly] = useState(false)
   const [mapBounds, setMapBounds] = useState<MapBounds | null>(null)
 
   const handleBoundsChange = useCallback((bounds: MapBounds) => {
@@ -32,41 +28,17 @@ export default function ExploreClient({ homestays }: Props) {
   }, [])
 
   const filtered = useMemo(() => {
-    return homestays.filter((h) => {
-      // Place search bbox takes priority; fall back to live map viewport
-      if (selectedPlace) {
-        const [south, north, west, east] = selectedPlace.bbox
-        if (h.latitude < south || h.latitude > north || h.longitude < west || h.longitude > east) return false
-      } else if (mapBounds) {
-        const { south, north, west, east } = mapBounds
-        if (h.latitude < south || h.latitude > north || h.longitude < west || h.longitude > east) return false
-      }
-      if (selectedCategories.length > 0 && !h.categories.some((c) => selectedCategories.includes(c.slug))) return false
-      if (verifiedOnly && !h.is_verified) return false
-      return true
-    })
-  }, [homestays, selectedPlace, selectedCategories, verifiedOnly, mapBounds])
+    if (!mapBounds) return homestays
+    const { south, north, west, east } = mapBounds
+    return homestays.filter(
+      (h) => h.latitude >= south && h.latitude <= north && h.longitude >= west && h.longitude <= east
+    )
+  }, [homestays, mapBounds])
 
-  function clearFilters() {
-    setSelectedPlace(null)
-    setSelectedCategories([])
-    setVerifiedOnly(false)
-  }
-
-  const isFiltering = !!selectedPlace || !!mapBounds
+  const isFiltering = !!mapBounds
 
   return (
     <div className="flex flex-col h-[calc(100vh-56px)]">
-      <FilterBar
-        selectedPlace={selectedPlace}
-        selectedCategories={selectedCategories}
-        verifiedOnly={verifiedOnly}
-        onPlaceSelect={setSelectedPlace}
-        onCategoryChange={setSelectedCategories}
-        onVerifiedChange={setVerifiedOnly}
-        resultCount={filtered.length}
-        onClear={clearFilters}
-      />
 
       {/* Desktop: side-by-side — map 40%, list 60% */}
       <div className="hidden lg:flex flex-1 overflow-hidden">
@@ -76,7 +48,7 @@ export default function ExploreClient({ homestays }: Props) {
           <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-sm ring-1 ring-stone-200">
             <MapView
               homestays={filtered}
-              selectedPlace={selectedPlace}
+              selectedPlace={null}
               onBoundsChange={handleBoundsChange}
             />
           </div>
@@ -84,7 +56,6 @@ export default function ExploreClient({ homestays }: Props) {
 
         {/* List — 60% width */}
         <div className="flex-1 flex flex-col overflow-hidden border-l border-stone-200 bg-white">
-          {/* List header */}
           <div className="px-4 py-3 border-b border-stone-100 flex items-center gap-2">
             <MapPin size={14} className="text-brand-600 shrink-0" />
             <span className="text-sm font-semibold text-stone-700">
@@ -118,7 +89,7 @@ export default function ExploreClient({ homestays }: Props) {
           <div className="relative w-full h-full rounded-xl overflow-hidden shadow-sm ring-1 ring-stone-200">
             <MapView
               homestays={filtered}
-              selectedPlace={selectedPlace}
+              selectedPlace={null}
               onBoundsChange={handleBoundsChange}
             />
           </div>
