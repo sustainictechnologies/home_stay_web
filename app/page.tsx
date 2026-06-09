@@ -142,23 +142,21 @@ export default async function HomePage() {
         {/* Left: headline */}
         <div>
           <h1 className="text-3xl lg:text-4xl font-black text-stone-900 leading-snug lg:leading-[1.45] mb-3 tracking-tight">
-            BeNative<br />
-            Travel Slower
-            <span className="block mt-3 text-xl lg:text-2xl font-bold text-brand-600">Find places that still belong to themselves.</span>
+            <span className="block text-2xl lg:text-4xl font-bold text-brand-600">Find places that still belong to themselves.</span>
           </h1>
           <div className="w-12 h-[3px] bg-brand-600 rounded-full mt-3 mb-7" />
           <p className="text-stone-500 text-base leading-relaxed mb-4 max-w-[480px]">
             Discover villages, mountains, wetlands, forests, birding habitats, and landscapes that remain deeply connected to the communities around them. Access local knowledge, trusted contacts, and opportunities to experience these places beyond the usual tourist routes.
           </p>
           <p className="text-stone-800 text-sm font-semibold max-w-[480px]">
-            — Travel with curiosity. Leave with perspective.
+            Travel with curiosity. Leave with perspective.
           </p>
         </div>
 
         {/* Right: why choose + value cards */}
         <div>
           <h2 className="text-brand-600 font-black text-xl text-center mb-5 tracking-tight">
-            Why Be Native?
+            Why BeNative?
           </h2>
           <div className="relative grid grid-cols-2">
             {/* Centre + divider */}
