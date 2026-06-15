@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import BlockRenderer from '@/components/blocks/BlockRenderer'
@@ -11,20 +12,30 @@ interface Props {
   params: { slug: string }
 }
 
-export async function generateMetadata({ params }: Props) {
+// Cached so generateMetadata and the page share one DB round-trip per request
+const getHomestay = cache(async (slug: string) => {
   const supabase = createClient()
-  const { data: raw } = await supabase
+  const { data } = await supabase
     .from('homestays')
-    .select('title, village_name, location_district')
-    .eq('slug', params.slug)
+    .select(`
+      id, title, slug, village_name, location_district, is_verified,
+      host_name, contact_phone, calling_window, languages_spoken,
+      address, whatsapp_number, email, youtube_video_id,
+      homestay_categories ( categories ( id, name, slug ) ),
+      homestay_blocks ( id, block_type, sort_order, content_data )
+    `)
+    .eq('slug', slug)
     .single()
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = raw as any
+  return data as any
+})
+
+export async function generateMetadata({ params }: Props) {
+  const data = await getHomestay(params.slug)
   if (!data) return {}
   return {
-    title: `${data.title} · Be Native`,
-    description: `Authentic homestay in ${data.village_name}, ${data.location_district}. Direct host contact via Be Native.`,
+    title: `${data.title} · BeNative`,
+    description: `Authentic homestay in ${data.village_name}, ${data.location_district}. Direct host contact via BeNative.`,
   }
 }
 
@@ -34,19 +45,7 @@ export default async function HomestayPage({ params }: Props) {
   const { data: { user } } = await supabase.auth.getUser()
   const isLoggedIn = !!user
 
-  const { data: raw } = await supabase
-    .from('homestays')
-    .select(`
-      *,
-      homestay_categories ( categories ( id, name, slug ) ),
-      homestay_blocks ( id, block_type, sort_order, content_data )
-    `)
-    .eq('slug', params.slug)
-    .single()
-
-  // Cast once — Supabase infers `never` for complex join selects without generated types
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const homestay = raw as any
+  const homestay = await getHomestay(params.slug)
 
   if (!homestay) notFound()
 

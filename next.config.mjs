@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    minimumCacheTTL: 2592000, // 30 days — survive Render restarts
     remotePatterns: [
       {
         protocol: 'https',

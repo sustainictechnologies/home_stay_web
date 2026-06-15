@@ -12,9 +12,8 @@ export default async function MapPage() {
     .select(`
       id, title, slug, location_district, village_name,
       host_name, is_verified, latitude, longitude,
-      calling_window, languages_spoken,
-      homestay_categories ( categories ( id, name, slug ) ),
-      homestay_blocks ( block_type, content_data )
+      calling_window, languages_spoken, cover_image_url,
+      homestay_categories ( categories ( id, name, slug ) )
     `)
     .order('created_at', { ascending: false })
 
@@ -33,9 +32,7 @@ export default async function MapPage() {
     categories: (h.homestay_categories ?? [])
       .map((hc: any) => hc.categories)
       .filter(Boolean),
-    cover_image_url: (h.homestay_blocks ?? [])
-      .find((b: any) => b.block_type === 'hero')
-      ?.content_data?.cover_image_url ?? null,
+    cover_image_url: h.cover_image_url ?? null,
   }))
 
   return (

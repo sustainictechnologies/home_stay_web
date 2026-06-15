@@ -177,6 +177,10 @@ export async function publishHomestay(payload: PublishPayload) {
   const village  = parts[0] ?? payload.address
   const district = parts[1] ?? village
 
+  // Extract cover image from the hero block to store directly on homestay row
+  const heroBlock     = payload.blocks.find(b => b.type === 'hero')
+  const coverImageUrl = heroBlock?.props.images?.['cover'] ?? null
+
   // 1. Upsert homestay row, get back the id
   const { data: upserted, error: upsertErr } = await supabase
     .from('homestays')
@@ -192,6 +196,7 @@ export async function publishHomestay(payload: PublishPayload) {
         latitude:          payload.latitude,
         longitude:         payload.longitude,
         is_verified:       true,
+        cover_image_url:   coverImageUrl,
       },
       { onConflict: 'slug' }
     )

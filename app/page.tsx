@@ -84,14 +84,16 @@ const values = [
 
 /* ── Page ─────────────────────────────────────────────────── */
 
+export const revalidate = 3600 // revalidate homepage every hour
+
 export default async function HomePage() {
   const supabase = createClient()
   const { data: rawHomestays } = await supabase
     .from('homestays')
     .select(`
       id, title, slug, village_name, location_district, is_verified,
-      homestay_categories ( categories ( name, slug ) ),
-      homestay_blocks ( block_type, content_data )
+      cover_image_url,
+      homestay_categories ( categories ( name, slug ) )
     `)
     .limit(6)
 
@@ -103,8 +105,7 @@ export default async function HomePage() {
     location_district: h.location_district,
     is_verified: h.is_verified,
     categories: (h.homestay_categories ?? []).map((hc: any) => hc.categories).filter(Boolean),
-    cover_image_url: (h.homestay_blocks ?? [])
-      .find((b: any) => b.block_type === 'hero')?.content_data?.cover_image_url ?? null,
+    cover_image_url: h.cover_image_url ?? null,
   }))
 
   return (
