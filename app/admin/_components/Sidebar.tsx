@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -37,8 +37,17 @@ export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false)
   const pathname = usePathname()
 
+  useLayoutEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)')
+    setCollapsed(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setCollapsed(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   return (
     <motion.aside
+      initial={false}
       animate={{ width: collapsed ? 72 : 240 }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
       className="relative flex flex-col h-screen bg-white border-r border-stone-100 shadow-[2px_0_24px_rgba(0,0,0,0.04)] shrink-0 z-30 overflow-hidden"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
+import { useState, useCallback, useMemo, useEffect, useLayoutEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import {
@@ -15,6 +15,7 @@ import {
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { motion } from 'framer-motion'
+import { Monitor } from 'lucide-react'
 
 import type { CanvasBlock, BlockType, BlockProps } from './BuilderTypes'
 import { DEFAULT_PROPS, PALETTE } from './BuilderTypes'
@@ -44,6 +45,7 @@ const INITIAL_BLOCKS: CanvasBlock[] = [
 
 /* ─── Main Component ─────────────────────────────────────── */
 export default function BuilderClient() {
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
   const [blocks, setBlocks]             = useState<CanvasBlock[]>(INITIAL_BLOCKS)
   const [selectedId, setSelectedId]     = useState<string | null>('init-hero')
   const [previewMode, setPreviewMode]   = useState(false)
@@ -60,6 +62,15 @@ export default function BuilderClient() {
   const searchParams  = useSearchParams()
   const editSlug      = searchParams.get('slug')
   const loadedRef     = useRef(false)
+
+  /* ── Builder needs desktop width for the 3-panel layout ──── */
+  useLayoutEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)')
+    setIsSmallScreen(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsSmallScreen(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   /* ── Undo history ────────────────────────────────────────── */
   const historyRef      = useRef<CanvasBlock[][]>([])
@@ -528,6 +539,20 @@ export default function BuilderClient() {
   }
 
   const draggingMeta = PALETTE.find(p => p.type === draggingType)
+
+  if (isSmallScreen) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-center px-6 py-16">
+        <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center mb-4">
+          <Monitor size={26} className="text-brand-600" />
+        </div>
+        <h2 className="text-lg font-bold text-stone-900 mb-1.5">Open on a larger screen</h2>
+        <p className="text-sm text-stone-500 max-w-xs">
+          The Website Builder needs more space to work properly. Please switch to a desktop or tablet to edit your page.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <BuilderContext.Provider value={contextValue}>

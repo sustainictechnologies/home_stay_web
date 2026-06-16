@@ -28,7 +28,7 @@ export default function BuilderTopbar({
     return () => clearTimeout(t)
   }, [savedAt])
   return (
-    <header className="h-12 bg-stone-900 border-b border-stone-700 flex items-center gap-4 px-4 shrink-0 z-10">
+    <header className="h-12 bg-stone-900 border-b border-stone-700 flex items-center gap-2 sm:gap-4 px-2 sm:px-4 shrink-0 z-10 overflow-x-auto scrollbar-hide">
 
       {/* Logo */}
       <Link href="/admin" className="flex items-center gap-2 shrink-0">
@@ -38,10 +38,10 @@ export default function BuilderTopbar({
         <span className="text-xs font-bold text-white hidden sm:block">Builder</span>
       </Link>
 
-      <div className="w-px h-5 bg-stone-700" />
+      <div className="w-px h-5 bg-stone-700 shrink-0" />
 
       {/* Page name */}
-      <div className="flex items-center gap-2">
+      <div className="hidden md:flex items-center gap-2 shrink-0">
         <div className="bg-stone-800 border border-stone-600 rounded-lg px-3 py-1 flex items-center gap-2">
           <span className="text-xs text-stone-300 font-medium">Your Homestay</span>
           <span className="text-[10px] text-stone-500 bg-stone-700 px-1.5 py-0.5 rounded-md">{blockCount} sections</span>
@@ -49,7 +49,7 @@ export default function BuilderTopbar({
       </div>
 
       {/* History */}
-      <div className="flex items-center gap-1">
+      <div className="hidden sm:flex items-center gap-1 shrink-0">
         <button className="w-7 h-7 flex items-center justify-center rounded-lg text-stone-400 hover:text-white hover:bg-stone-700 transition-colors">
           <Undo2 size={13} />
         </button>
@@ -59,10 +59,10 @@ export default function BuilderTopbar({
       </div>
 
       {/* Spacer */}
-      <div className="flex-1" />
+      <div className="flex-1 min-w-2" />
 
       {/* Viewport toggle */}
-      <div className="flex items-center bg-stone-800 rounded-lg p-0.5 gap-0.5">
+      <div className="hidden sm:flex items-center bg-stone-800 rounded-lg p-0.5 gap-0.5 shrink-0">
         {(['desktop', 'mobile'] as const).map((v) => (
           <button
             key={v}
@@ -81,32 +81,32 @@ export default function BuilderTopbar({
       {/* Preview toggle */}
       <button
         onClick={onTogglePreview}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+        className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 ${
           previewMode
             ? 'bg-brand-600 text-white'
             : 'bg-stone-700 text-stone-300 hover:bg-stone-600 hover:text-white'
         }`}
       >
         {previewMode ? <EyeOff size={12} /> : <Eye size={12} />}
-        {previewMode ? 'Edit' : 'Preview'}
+        <span className="hidden sm:inline">{previewMode ? 'Edit' : 'Preview'}</span>
       </button>
 
       {/* Save / Publish */}
       <button
         onClick={onSave}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm ${
+        className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm shrink-0 ${
           justSaved
             ? 'bg-emerald-600 text-white'
             : 'bg-brand-600 hover:bg-brand-500 text-white'
         }`}
       >
         {justSaved ? <Check size={12} /> : <Save size={12} />}
-        {justSaved ? 'Saved!' : 'Save Draft'}
+        <span className="hidden sm:inline">{justSaved ? 'Saved!' : 'Save Draft'}</span>
       </button>
 
       <button
         onClick={onPublish}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-white transition-colors shadow-sm"
+        className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-white transition-colors shadow-sm shrink-0"
       >
         Publish
       </button>
